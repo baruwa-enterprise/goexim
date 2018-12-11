@@ -30,8 +30,7 @@ func init() {
 }
 
 func TestBasics(t *testing.T) {
-	var body []byte
-	var p, id, hf, df, did, hid, user, sender, heloname, mb, tb string
+	var p, id, hf, df, did, hid, user, sender, heloname string
 	var uid, gid, rcvd, wc int
 	var err error
 	var msg *Msg
@@ -39,7 +38,6 @@ func TestBasics(t *testing.T) {
 	gid = 93
 	rcvd = 1515239630
 	user = "exim"
-	tb = "This is a test mailing\n\n"
 	heloname = "-helo_name alcazar.home.topdog-software.com"
 	sender = "andrew@kudusoft.home.topdog-software.com"
 	id = "1eXn2s-0008DG-EX"
@@ -92,6 +90,20 @@ func TestBasics(t *testing.T) {
 	if msg.DtaFile != df {
 		t.Errorf("Got %q want %q", msg.DtaFile, df)
 	}
+}
+
+func TestBody(t *testing.T) {
+	var err error
+	var msg *Msg
+	var p, id, tb, mb string
+	var body []byte
+	id = "1eXn2s-0008DG-EX"
+	tb = "This is a test mailing\n\n"
+	p = path.Join(gopath, "src/github.com/baruwa-enterprise/goexim/testdata")
+	if msg, err = NewMsg(p, id); err != nil {
+		t.Fatalf("UnExpected error: %s", err)
+	}
+	defer msg.Close()
 
 	if body, err = msg.Body(); err != nil {
 		t.Fatalf("UnExpected error: %s", err)

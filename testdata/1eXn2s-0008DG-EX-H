@@ -1,0 +1,35 @@
+1eXn2s-0008DG-EX-H
+exim 93 93
+<andrew@kudusoft.home.topdog-software.com>
+1515239630 0
+-helo_name alcazar.home.topdog-software.com
+-host_address 192.168.1.84.52369
+-host_name alcazar.home.topdog-software.com
+-interface_address 192.168.1.26.25
+-active_hostname standalone.home.topdog-software.com
+-received_protocol esmtps
+-aclc _l 3
+250
+-aclm _av_scanner 32
+clamd:/var/run/clamav/clamd.sock
+-aclm 0 2
+no
+-body_linecount 2
+-max_received_linelength 66
+-tls_cipher TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256
+-tls_ourcert -----BEGIN CERTIFICATE-----\nMIIGhzCCBW+gAwIBAgISA4oKDGRvBuqcXCl8p3ZQgd3iMA0GCSqGSIb3DQEBCwUA\nMEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD\nExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xNzExMDQxOTQzMTBaFw0x\nODAyMDIxOTQzMTBaMC0xKzApBgNVBAMTInN0YW5kYWxvbmUubGFiLnRvcGRvZy1z\nb2Z0d2FyZS5jb20wggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQC7zWfO\nFbPuNCz0O0rs2Ygvq0GglxxhUDAmeFepAtq5+1U6u515n85wVGNlxTyUWSFcIFyX\nZ7M/jyPhQhSQytLUbpEAfGnGJrnp0cDTM5bdUyAQ/E1723FziF/1TVVhsN9Iw73Q\n2rttJnU0Est2z82L7/HB3gFxYybaIK3Qt4ZQt/EQ5HvzH4bvn8oasQbfO3kxEyx2\noXekV1qwvRYope2GbS3O03n4zPPUH9hbox1M6tKb+EZerm1CkOSQmGOewsNkaQYR\nWQ9EqMyO2Fc4zGq0FdX7pWCxSBOi7tJ7p1FOBMnye5JgAYua0AWAMMvlwb9iMhTw\nvNeviDHgj0FDNP8qCA7xaBonvjHb3f0Grv/VszcCBYjmsMM7BJkw7AnrclR4RV/2\ndL3a5SpLag1EPDcI7LAFPso/ZLK2OEZGwF3iTBiaJW6QsEuVAiqy61qVsOLQwA+8\n4m5jdSwzHRiQ0+dtuWBa94Kub+k6nH0ZSeHDjKouRqalQ16r+5ymYDHauQUg2u2F\nlBnwSgKNlriJttpk7vpTR4/ipaPS51xxvG4kGfeN45ZIUPDM01Sns0pRS1aphCLW\nvy1da/4Ch7+hgLzxA6AGWGk8WZktpPkYAQrTuOvdro3BBFqS1wDxSgCq2ZPY6+qV\n5UGHqCvWWWb7rzPFnAafR1ChPZVkzOWrwY1FjwIDAQABo4ICgjCCAn4wDgYDVR0P\nAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB\nAf8EAjAAMB0GA1UdDgQWBBQiPPnibdIny8oHtMyp5EH+oP6tszAfBgNVHSMEGDAW\ngBSoSmpjBH3duubRObemRWXv86jsoTBvBggrBgEFBQcBAQRjMGEwLgYIKwYBBQUH\nMAGGImh0dHA6Ly9vY3NwLmludC14My5sZXRzZW5jcnlwdC5vcmcwLwYIKwYBBQUH\nMAKGI2h0dHA6Ly9jZXJ0LmludC14My5sZXRzZW5jcnlwdC5vcmcvMIGMBgNVHREE\ngYQwgYGCHm1haWxmdy5sYWIudG9wZG9nLXNvZnR3YXJlLmNvbYIdbXgtaW4ubGFi\nLnRvcGRvZy1zb2Z0d2FyZS5jb22CHHNsMDEubGFiLnRvcGRvZy1zb2Z0d2FyZS5j\nb22CInN0YW5kYWxvbmUubGFiLnRvcGRvZy1zb2Z0d2FyZS5jb20wgf4GA1UdIASB\n9jCB8zAIBgZngQwBAgEwgeYGCysGAQQBgt8TAQEBMIHWMCYGCCsGAQUFBwIBFhpo\ndHRwOi8vY3BzLmxldHNlbmNyeXB0Lm9yZzCBqwYIKwYBBQUHAgIwgZ4MgZtUaGlz\nIENlcnRpZmljYXRlIG1heSBvbmx5IGJlIHJlbGllZCB1cG9uIGJ5IFJlbHlpbmcg\nUGFydGllcyBhbmQgb25seSBpbiBhY2NvcmRhbmNlIHdpdGggdGhlIENlcnRpZmlj\nYXRlIFBvbGljeSBmb3VuZCBhdCBodHRwczovL2xldHNlbmNyeXB0Lm9yZy9yZXBv\nc2l0b3J5LzANBgkqhkiG9w0BAQsFAAOCAQEAjZ9o8njvLRWs1728B0CxOcqqqEcR\nwET5OH2JB4L2Wr1RhgCVknjZyFehYOucWJyUmFO5IVt0lq2p0bXIzgylnDipyCHq\nJE5ogimpUdmy2nP/gkWODGfj2/23sA4Wj4FMCt2sOb3I0aZ48gh3CdBQhm+EiYZD\nT6+MqdiENI4B3s2D91YxD+Jz3TrXe19ANiWRtvMGt0dq/EZvHt2b9uHY7l0gSaEG\n2hrBfoN1QI6G79mmasRQSSN9ikxF+XYAH2m+IIZckxQazHzTbsNOB6rBySCDMdfk\ncRjQQilfeXI7fuxuMV/5DorwswkCY/AWx4HbG0vawNdZIqD4qgwY897Iew==\n-----END CERTIFICATE-----\n
+NN andrew@home.topdog-software.com
+2
+andrew@home.topdog-software.com
+angel@home.topdog-software.com
+
+294P Received: from alcazar.home.topdog-software.com ([192.168.1.84])
+	by mx-in.lab.topdog-software.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+	(Baruwa 2.0)
+	(envelope-from <andrew@kudusoft.home.topdog-software.com>)
+	id 1eXn2s-0008DG-EX ret-id none;; Sat, 06 Jan 2018 13:53:50 +0200
+038  Date: Sat, 06 Jan 2018 13:53:50 +0200
+067T To: andrew@home.topdog-software.com,angel@home.topdog-software.com
+047F From: andrew@kudusoft.home.topdog-software.com
+046  Subject: test Sat, 06 Jan 2018 13:53:50 +0200
+057  X-Mailer: swaks v20130209.0 jetmore.org/john/code/swaks/

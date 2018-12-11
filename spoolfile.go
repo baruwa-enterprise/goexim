@@ -226,7 +226,7 @@ func NewMsg(p, id string) (m *Msg, err error) {
 	}
 	r := bufio.NewReader(hf)
 
-	spoolErr := fmt.Errorf("Format error in spool file: %s", p)
+	spoolErr := fmt.Errorf("Format error in spool file: %s", hp)
 	tm := Msg{
 		ID:       []byte(id),
 		HdrFile:  hp,

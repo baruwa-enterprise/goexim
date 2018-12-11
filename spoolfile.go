@@ -106,25 +106,18 @@ func (m *Msg) CreateFile(fn string) (err error) {
 	return
 }
 
-func (m *Msg) String() (string, error) {
-	m.mx.Lock()
-	defer m.mx.Unlock()
-	var err error
+// Body returns the message body as a byte slice
+func (m *Msg) Body() (body []byte, err error) {
 	var lineb []byte
-	var b strings.Builder
-	for _, h := range m.Hdrs {
-		fmt.Fprintf(&b, "%s\n", h)
-	}
-	// Print newline separating headers from body
-	fmt.Fprint(&b, "\n")
 
 	m.df.Seek(0, 0)
 	dr := bufio.NewReader(m.df)
+
 	// Readin the message-id
-	_, err = dr.ReadBytes('\n')
-	if err != nil {
-		return "", err
+	if _, err = dr.ReadBytes('\n'); err != nil {
+		return
 	}
+
 	// Read the message body
 	for {
 		lineb, err = dr.ReadBytes('\n')
@@ -133,12 +126,38 @@ func (m *Msg) String() (string, error) {
 				err = nil
 				break
 			}
-			return "", err
+			return
 		}
-		fmt.Fprintf(&b, "%s", lineb)
+		body = append(body, lineb...)
 	}
 
-	return b.String(), err
+	return
+}
+
+func (m *Msg) String() (msg string, err error) {
+	m.mx.Lock()
+	defer m.mx.Unlock()
+	var body []byte
+	var b strings.Builder
+	for _, h := range m.Hdrs {
+		fmt.Fprintf(&b, "%s\n", h)
+	}
+	// Print newline separating headers from body
+	fmt.Fprint(&b, "\n")
+
+	// Get the message body
+	if body, err = m.Body(); err != nil {
+		return
+	}
+
+	// Covert body to string
+	if _, err = fmt.Fprintf(&b, "%s", body); err != nil {
+		return
+	}
+
+	msg = b.String()
+
+	return
 }
 
 // Close frees the locks and closes the files

@@ -27,7 +27,7 @@ var (
 	// DfRe data file regex
 	DfRe = regexp.MustCompile(`^(?:[^\W_]{6}-){2}[^\W_]{2}-D$`)
 	// MidRe message-id regex
-	MidRe = regexp.MustCompile(`((?:[^\W_]{6}-){2}[^\W_]{2})-H$`)
+	MidRe = regexp.MustCompile(`((?:[^\W_]{6}-){2}[^\W_]{2})$`)
 )
 
 func trim(s []byte) []byte {
@@ -159,39 +159,28 @@ func (m *Msg) Close() {
 }
 
 // NewMsg creates a new Msg
-func NewMsg(p string) (m *Msg, err error) {
-	if !path.IsAbs(p) {
-		err = fmt.Errorf("The filename: %s is not absolute", p)
-		return
-	}
-	if _, err = os.Stat(p); os.IsNotExist(err) {
-		return
-	}
-
-	bd := path.Dir(p)
-	fn := path.Base(p)
-	if !HfRe.MatchString(fn) {
-		err = fmt.Errorf("The file: %s is not an exim header file", fn)
+func NewMsg(p, id string) (m *Msg, err error) {
+	var hp, dp, hid, did string
+	if !MidRe.MatchString(id) {
+		err = fmt.Errorf("Invalid exim id: %s", id)
 		return
 	}
 
-	dp := path.Join(bd, MidRe.ReplaceAllString(fn, "${1}-D"))
-	if _, err = os.Stat(dp); os.IsNotExist(err) {
+	if hp, dp, err = checkPaths(p, id); err != nil {
 		return
 	}
 
-	dn := path.Base(dp)
-	if !DfRe.MatchString(dn) {
-		err = fmt.Errorf("The file: %s is not an exim data file", dn)
-		return
-	}
+	// hid = fmt.Sprintf("%s-H", id)
+	// did = fmt.Sprintf("%s-D", id)
+	hid = path.Base(hp)
+	did = path.Base(dp)
 
 	// Check the data file validty
 	df, err := os.OpenFile(dp, syscall.O_RDWR, 0640)
 	if err != nil {
 		return
 	}
-	// defer df.Close()
+
 	dfLock := syscall.Flock_t{
 		Type:   syscall.F_WRLCK,
 		Start:  0,
@@ -209,18 +198,17 @@ func NewMsg(p string) (m *Msg, err error) {
 		return
 	}
 
-	if !bytes.Equal(dID, []byte(dn)) {
+	if !bytes.Equal(dID, []byte(did)) {
 		err = fmt.Errorf("Format error in spool file: %s", dp)
 		return
 	}
-	// df.Close()
 
 	// Open the header file
-	hf, err := os.OpenFile(p, syscall.O_RDWR, 0640)
+	hf, err := os.OpenFile(hp, syscall.O_RDWR, 0640)
 	if err != nil {
 		return
 	}
-	// defer hf.Close()
+
 	hfLock := syscall.Flock_t{
 		Type:   syscall.F_WRLCK,
 		Start:  0,
@@ -235,7 +223,8 @@ func NewMsg(p string) (m *Msg, err error) {
 
 	spoolErr := fmt.Errorf("Format error in spool file: %s", p)
 	tm := Msg{
-		HdrFile:  p,
+		ID:       []byte(id),
+		HdrFile:  hp,
 		DtaFile:  dp,
 		hf:       hf,
 		df:       df,
@@ -248,10 +237,11 @@ func NewMsg(p string) (m *Msg, err error) {
 	defer tm.mx.Unlock()
 
 	// Get the filename
-	if _, err = fmt.Fscanln(r, &tm.ID); err != nil {
+	var tmphid []byte
+	if _, err = fmt.Fscanln(r, &tmphid); err != nil {
 		return
 	}
-	if !bytes.Equal(tm.ID, []byte(fn)) {
+	if !bytes.Equal(tmphid, []byte(hid)) {
 		err = spoolErr
 		return
 	}
@@ -423,5 +413,48 @@ func NewMsg(p string) (m *Msg, err error) {
 	}
 
 	m = &tm
+	return
+}
+
+func checkPaths(p, id string) (hdrPath, dataPath string, err error) {
+	var stat os.FileInfo
+
+	if stat, err = os.Stat(p); os.IsNotExist(err) {
+		return
+	}
+
+	if !stat.IsDir() {
+		err = fmt.Errorf("The path: %s is not a directory", p)
+		return
+	}
+
+	hdrPath = path.Join(p, fmt.Sprintf("%s-H", id))
+	if err = checkFile(hdrPath); err != nil {
+		return
+	}
+
+	dataPath = path.Join(p, fmt.Sprintf("%s-D", id))
+	if err = checkFile(hdrPath); err != nil {
+		return
+	}
+
+	return
+}
+
+func checkFile(p string) (err error) {
+	var mode os.FileMode
+	var stat os.FileInfo
+
+	if stat, err = os.Stat(p); os.IsNotExist(err) {
+		return
+	}
+
+	mode = stat.Mode()
+
+	if !mode.IsRegular() {
+		err = fmt.Errorf("The path: %s is not a regular file", p)
+		return
+	}
+
 	return
 }

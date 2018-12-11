@@ -384,7 +384,7 @@ func NewMsg(p, id string) (m *Msg, err error) {
 		tm.Rcpts = append(tm.Rcpts, trim(line))
 	}
 
-	// Get the newline seperating the headers
+	// Get the newline separating the headers
 	if line, err = r.ReadBytes('\n'); err != nil {
 		return
 	}

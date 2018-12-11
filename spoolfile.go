@@ -64,8 +64,8 @@ type Msg struct {
 	df        *os.File
 }
 
-// CreateFile creates the .eml representation on disk
-func (m *Msg) CreateFile(fn string) (err error) {
+// CreateEml creates the .eml representation on disk
+func (m *Msg) CreateEml(fn string) (err error) {
 	m.mx.Lock()
 	defer m.mx.Unlock()
 	var f *os.File

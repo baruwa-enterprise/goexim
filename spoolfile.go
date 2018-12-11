@@ -27,7 +27,10 @@ var (
 	// DfRe data file regex
 	DfRe = regexp.MustCompile(`^(?:[^\W_]{6}-){2}[^\W_]{2}-D$`)
 	// MidRe message-id regex
-	MidRe   = regexp.MustCompile(`((?:[^\W_]{6}-){2}[^\W_]{2})$`)
+	MidRe = regexp.MustCompile(`((?:[^\W_]{6}-){2}[^\W_]{2})$`)
+)
+
+const (
 	pathErr = "The path: %s is not a directory"
 	fileErr = "The path: %s is not a regular file"
 )

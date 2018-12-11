@@ -27,7 +27,9 @@ var (
 	// DfRe data file regex
 	DfRe = regexp.MustCompile(`^(?:[^\W_]{6}-){2}[^\W_]{2}-D$`)
 	// MidRe message-id regex
-	MidRe = regexp.MustCompile(`((?:[^\W_]{6}-){2}[^\W_]{2})$`)
+	MidRe   = regexp.MustCompile(`((?:[^\W_]{6}-){2}[^\W_]{2})$`)
+	pathErr = "The path: %s is not a directory"
+	fileErr = "The path: %s is not a regular file"
 )
 
 func trim(s []byte) []byte {
@@ -424,7 +426,7 @@ func checkPaths(p, id string) (hdrPath, dataPath string, err error) {
 	}
 
 	if !stat.IsDir() {
-		err = fmt.Errorf("The path: %s is not a directory", p)
+		err = fmt.Errorf(pathErr, p)
 		return
 	}
 
@@ -452,7 +454,7 @@ func checkFile(p string) (err error) {
 	mode = stat.Mode()
 
 	if !mode.IsRegular() {
-		err = fmt.Errorf("The path: %s is not a regular file", p)
+		err = fmt.Errorf(fileErr, p)
 		return
 	}
 

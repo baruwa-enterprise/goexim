@@ -6,7 +6,7 @@ GIT_DIRTY=$(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
 default: test
 
 help:
-	@echo 'Management commands for go-exim:'
+	@echo 'Management commands for goexim:'
 	@echo
 	@echo 'Usage:'
 	@echo '    make get-deps        runs dep ensure, mostly used for ci.'

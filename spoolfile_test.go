@@ -43,7 +43,7 @@ func TestBasics(t *testing.T) {
 	heloname = "-helo_name alcazar.home.topdog-software.com"
 	sender = "andrew@kudusoft.home.topdog-software.com"
 	id = "1eXn2s-0008DG-EX"
-	p = path.Join(gopath, "src/github.com/baruwa-enterprise/go-exim/testdata")
+	p = path.Join(gopath, "src/github.com/baruwa-enterprise/goexim/testdata")
 	hid = fmt.Sprintf("%s-H", id)
 	did = fmt.Sprintf("%s-D", id)
 	hf = path.Join(p, hid)
@@ -111,7 +111,7 @@ func TestBasics(t *testing.T) {
 func TestErrors(t *testing.T) {
 	var p, id, emsg string
 	var err error
-	p = path.Join(gopath, "src/github.com/baruwa-enterprise/go-exim/testdata/1eXn2s-0008DG-EX-H")
+	p = path.Join(gopath, "src/github.com/baruwa-enterprise/goexim/testdata/1eXn2s-0008DG-EX-H")
 	id = "1eXn2s-0008DG-EX"
 	emsg = fmt.Sprintf(pathErr, p)
 	if _, err = NewMsg(p, id); err == nil {
@@ -123,7 +123,7 @@ func TestErrors(t *testing.T) {
 	}
 
 	id = "1cGaid-0000sq-9g"
-	p = path.Join(gopath, "src/github.com/baruwa-enterprise/go-exim/testdata")
+	p = path.Join(gopath, "src/github.com/baruwa-enterprise/goexim/testdata")
 	emsg = fmt.Sprintf("stat %s/%s-H: no such file or directory", p, id)
 	if _, err = NewMsg(p, id); err == nil {
 		t.Fatalf("An error should be returned")

@@ -14,6 +14,7 @@ import (
 	"go/build"
 	"os"
 	"path"
+	"strings"
 	"testing"
 )
 
@@ -29,7 +30,8 @@ func init() {
 }
 
 func TestBasics(t *testing.T) {
-	var p, id, hf, df, did, hid, user, sender, heloname string
+	var body []byte
+	var p, id, hf, df, did, hid, user, sender, heloname, mb, tb string
 	var uid, gid, rcvd, wc int
 	var err error
 	var msg *Msg
@@ -37,6 +39,7 @@ func TestBasics(t *testing.T) {
 	gid = 93
 	rcvd = 1515239630
 	user = "exim"
+	tb = "This is a test mailing\n\n"
 	heloname = "-helo_name alcazar.home.topdog-software.com"
 	sender = "andrew@kudusoft.home.topdog-software.com"
 	id = "1eXn2s-0008DG-EX"
@@ -88,6 +91,20 @@ func TestBasics(t *testing.T) {
 
 	if msg.DtaFile != df {
 		t.Errorf("Got %q want %q", msg.DtaFile, df)
+	}
+
+	if body, err = msg.Body(); err != nil {
+		t.Fatalf("UnExpected error: %s", err)
+	}
+	if !bytes.Equal(body, []byte(tb)) {
+		t.Errorf("Got %q want %q", body, tb)
+	}
+
+	if mb, err = msg.String(); err != nil {
+		t.Fatalf("UnExpected error: %s", err)
+	}
+	if !strings.HasSuffix(mb, tb) {
+		t.Errorf("Got %q want %q", mb, tb)
 	}
 }
 

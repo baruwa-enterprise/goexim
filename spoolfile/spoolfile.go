@@ -71,7 +71,7 @@ func (m *Msg) CreateEml(fn string) (err error) {
 	var f *os.File
 	var lineb []byte
 
-	f, err = os.OpenFile(fn, syscall.O_CREAT|syscall.O_RDWR, 0640)
+	f, err = os.OpenFile(fn, syscall.O_CREAT|syscall.O_RDWR|syscall.O_NOFOLLOW, 0640)
 	if err != nil {
 		return
 	}

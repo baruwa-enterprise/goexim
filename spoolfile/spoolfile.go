@@ -71,8 +71,7 @@ func (m *Msg) CreateEml(fn string) (err error) {
 	var f *os.File
 	var lineb []byte
 
-	f, err = os.OpenFile(fn, syscall.O_CREAT|syscall.O_RDWR|syscall.O_NOFOLLOW, 0640)
-	if err != nil {
+	if f, err = os.OpenFile(fn, syscall.O_CREAT|syscall.O_RDWR|syscall.O_NOFOLLOW, 0640); err != nil {
 		return
 	}
 	defer f.Sync()
@@ -87,14 +86,12 @@ func (m *Msg) CreateEml(fn string) (err error) {
 	m.df.Seek(0, 0)
 	dr := bufio.NewReader(m.df)
 
-	_, err = dr.ReadBytes('\n')
-	if err != nil {
+	if _, err = dr.ReadBytes('\n'); err != nil {
 		return
 	}
 
 	for {
-		lineb, err = dr.ReadBytes('\n')
-		if err != nil {
+		if lineb, err = dr.ReadBytes('\n'); err != nil {
 			if err == io.EOF {
 				err = nil
 				break
@@ -103,6 +100,48 @@ func (m *Msg) CreateEml(fn string) (err error) {
 		}
 		f.Write(lineb)
 	}
+	return
+}
+
+// CreateReader creates a reader with the .eml representation
+func (m *Msg) CreateReader(fn string) (r io.ReadCloser, err error) {
+	m.mx.Lock()
+	defer m.mx.Unlock()
+	var f *os.File
+	var lineb []byte
+
+	if r, err = os.OpenFile(fn, syscall.O_CREAT|syscall.O_RDWR|syscall.O_NOFOLLOW, 0640); err != nil {
+		return
+	}
+
+	for _, h := range m.Hdrs {
+		f.Write(h)
+		f.WriteString("\n")
+	}
+	f.WriteString("\n")
+
+	m.df.Seek(0, 0)
+	dr := bufio.NewReader(m.df)
+
+	if _, err = dr.ReadBytes('\n'); err != nil {
+		return
+	}
+
+	for {
+		if lineb, err = dr.ReadBytes('\n'); err != nil {
+			if err == io.EOF {
+				err = nil
+				break
+			}
+			return
+		}
+		f.Write(lineb)
+	}
+	f.Sync()
+	f.Seek(0, 0)
+
+	r = f
+
 	return
 }
 
@@ -120,8 +159,7 @@ func (m *Msg) Body() (body []byte, err error) {
 
 	// Read the message body
 	for {
-		lineb, err = dr.ReadBytes('\n')
-		if err != nil {
+		if lineb, err = dr.ReadBytes('\n'); err != nil {
 			if err == io.EOF {
 				err = nil
 				break
